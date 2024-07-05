@@ -10,14 +10,14 @@ const inventorySchema = new Schema<Inventory>({
   inStock: { type: Boolean, required: true },
 });
 
-const productsSchema = new Schema<ProductsDoc>({
+const productSchema = new Schema<ProductsDoc>({
   name: { type: String, required: true },
   description: { type: String, required: true },
   price: { type: Number, required: true },
   category: { type: String, required: true },
-  tags: { type: [String], required: true },
-  variants: variantSchema,
+  tags: [{type: String, required: true}],
+  variants: [variantSchema],
   inventory: inventorySchema,
 });
 
-export const ProductsModel = model<ProductsDoc>('Products', productsSchema)
+export const ProductsModel = model<ProductsDoc>('Products', productSchema)
