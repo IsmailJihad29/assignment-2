@@ -15,9 +15,9 @@ const productSchema = new Schema<ProductsDoc>({
   description: { type: String, required: true },
   price: { type: Number, required: true },
   category: { type: String, required: true },
-  tags: [{type: String, required: true}],
+  tags: [{ type: String, required: true }],
   variants: [variantSchema],
   inventory: inventorySchema,
 });
 
-export const ProductsModel = model<ProductsDoc>('Products', productSchema)
+export const ProductsModel = model<ProductsDoc>("Products", productSchema);

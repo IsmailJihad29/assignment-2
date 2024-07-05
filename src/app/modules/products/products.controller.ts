@@ -6,7 +6,7 @@ const createProduct = async (req: Request, res: Response) => {
   try {
     const { products: productData } = req.body;
     console.log(req.body);
-    const result = await ProductServices.createProductIntoDb(productData); // call createProductIntoDb from service function to create product service result 
+    const result = await ProductServices.createProductIntoDb(productData); // call createProductIntoDb from service function to create product service result
 
     res.status(200).json({
       success: true,
@@ -36,8 +36,8 @@ const getAllProduct = async (req: Request, res: Response) => {
 
 const getSingleProduct = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const result = await ProductServices.getSingleProductFromDb(id); // call service funcion to get single data service result
+    const { productId } = req.params;
+    const result = await ProductServices.getSingleProductFromDb(productId); // call service funcion to get single data service result
     res.status(200).json({
       success: true,
       message: "Product fetched successfully!",

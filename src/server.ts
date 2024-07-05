@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import  { configEnv } from "./app/config";
+import { configEnv } from "./app/config";
 import app from "./app";
 
 async function main() {
@@ -13,5 +13,4 @@ async function main() {
     console.log(err);
   }
 }
-main()
-
+main();
