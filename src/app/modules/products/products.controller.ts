@@ -83,23 +83,43 @@ const updateProduct = async (req: Request, res: Response) => {
   }
 };
 
-
 // delecte product
 
 const deleteProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
     await ProductServices.deleteProductFromDb(productId);
-    res.json({
+    res.status(200).json({
       success: true,
       message: 'Product deleted successfully!',
-      data: null,
+      data: null
     });
   } catch (err) {
     res.status(500).json({
       success: false,
       message: 'something went wrong',
-      data: err,
+      data: err
+    });
+  }
+};
+
+//search product
+const searchProduct = async (req: Request, res: Response) => {
+  try {
+    const { searchTerm } = req.query;
+    const queryString = searchTerm as string;
+
+    const result = await ProductServices.searchProductFromDB(queryString);
+    res.status(200).json({
+      success: true,
+      message: 'Product found successfully!',
+      data: result
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: 'something went wrong',
+      data: err
     });
   }
 };
@@ -110,4 +130,5 @@ export const ProductController = {
   getSingleProduct,
   updateProduct,
   deleteProduct,
+  searchProduct
 };

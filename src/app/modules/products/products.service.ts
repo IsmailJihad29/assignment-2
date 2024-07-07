@@ -1,5 +1,5 @@
-import { ProductsDoc } from "./products.interface";
-import { ProductsModel } from "./products.model";
+import { ProductsDoc } from './products.interface';
+import { ProductsModel } from './products.model';
 
 // service to create products
 const createProductIntoDb = async (product: ProductsDoc) => {
@@ -22,26 +22,39 @@ const getSingleProductFromDb = async (_id: string) => {
 
 // service to update product by id
 
-const updateProductFromDb = async (id: string, updatedProduct: ProductsDoc)=>{
+const updateProductFromDb = async (id: string, updatedProduct: ProductsDoc) => {
   const result = await ProductsModel.findByIdAndUpdate(
     id,
     { $set: { ...updatedProduct } },
-    { new: true },
+    { new: true }
   );
   return result;
-}
+};
 
-// service to delete product 
+// service to delete product
 
-const deleteProductFromDb = async (id: string)=>{
+const deleteProductFromDb = async (id: string) => {
   const result = await ProductsModel.findByIdAndDelete(id);
   return result;
-}
+};
+
+// search products
+const searchProductFromDB = async (searchTerm: string) => {
+  const searchResult = await ProductsModel.find({
+    $or: [
+      { name: { $regex: searchTerm, $options: 'i' } },
+      { category: { $regex: searchTerm, $options: 'i' } },
+      { tags: { $in: [searchTerm] } }
+    ]
+  });
+  return searchResult;
+};
 
 export const ProductServices = {
   createProductIntoDb,
   getAllProductFromDb,
   getSingleProductFromDb,
   updateProductFromDb,
-  deleteProductFromDb
+  deleteProductFromDb,
+  searchProductFromDB
 };

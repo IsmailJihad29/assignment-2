@@ -1,16 +1,12 @@
 import { z } from 'zod';
 
 const variantValidationSchema = z.object({
-  type: z.string().min(1,),
+  type: z.string().min(1),
   value: z.string().min(1)
 });
 
 const inventoryValidationSchema = z.object({
-  quantity: z
-    .number()
-    .int()
-    .nonnegative()
-    .min(1,),
+  quantity: z.number().int().nonnegative().min(1),
   inStock: z.boolean()
 });
 
