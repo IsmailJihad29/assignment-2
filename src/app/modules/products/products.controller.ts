@@ -24,19 +24,20 @@ const createProduct = async (req: Request, res: Response) => {
 };
 
 // controller for get all products data
-const getAllProduct = async (req: Request, res: Response) => {
+const getAllProducts = async (req: Request, res: Response) => {
   try {
-    const result = await ProductServices.getAllProductFromDb(); // call getAllserviceFrobDb from service funtions to get all products service result
-    res.status(200).json({
+    const { searchTerm } = req.query;
+    const result = await ProductServices.getAllProductFromDb(searchTerm);
+    res.json({
       success: true,
       message: 'Products fetched successfully!',
-      data: result
+      date: result
     });
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: 'something went wrong',
-      data: err
+      message: 'Something Went Wrong!!',
+      date: err
     });
   }
 };
@@ -103,32 +104,47 @@ const deleteProduct = async (req: Request, res: Response) => {
   }
 };
 
-//search product
-const searchProduct = async (req: Request, res: Response) => {
-  try {
-    const { searchTerm } = req.query;
-    const queryString = searchTerm as string;
+// const searchProduct = async (req: Request, res: Response) => {
+//   const { searchTerm } = req.query;
 
-    const result = await ProductServices.searchProductFromDB(queryString);
-    res.status(200).json({
-      success: true,
-      message: 'Product found successfully!',
-      data: result
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: 'something went wrong',
-      data: err
-    });
-  }
-};
+//   if (!searchTerm || typeof searchTerm !== 'string') {
+//     return res
+//       .status(400)
+//       .json({ success: false, message: 'Invalid or missing search term' });
+//   }
+
+//   try {
+//     const products = await ProductsModel.find({
+//       $or: [
+//         { name: { $regex: searchTerm, $options: 'i' } },
+//         { description: { $regex: searchTerm, $options: 'i' } },
+//         { category: { $regex: searchTerm, $options: 'i' } },
+//         { tags: { $regex: searchTerm, $options: 'i' } }
+//       ]
+//     });
+
+//     if (products.length === 0) {
+//       return res
+//         .status(404)
+//         .json({ success: false, message: 'No products found matching the search term' });
+//     }
+
+//     res
+//       .status(200)
+//       .json({
+//         success: true,
+//         message: `Products matching search term '${searchTerm}' fetched successfully!`,
+//         data: products
+//       });
+//   } catch (err) {
+//     res.status(500).json({ success: false, message: 'Server error' });
+//   }
+// };
 
 export const ProductController = {
   createProduct,
-  getAllProduct,
+  getAllProducts,
   getSingleProduct,
   updateProduct,
-  deleteProduct,
-  searchProduct
+  deleteProduct
 };

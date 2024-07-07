@@ -4,14 +4,21 @@ import { ProductsModel } from './products.model';
 // service to create products
 const createProductIntoDb = async (product: ProductsDoc) => {
   const result = await ProductsModel.create(product);
-
   return result;
 };
 
 // service to get all products
-const getAllProductFromDb = async () => {
-  const result = await ProductsModel.find();
-  return result;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getAllProductFromDb = async (searchTerm: any) => {
+  if (!searchTerm) {
+    const result = await ProductsModel.find();
+    return result;
+  } else {
+    const result = await ProductsModel.find({
+      name: { $regex: searchTerm, $options: 'i' }
+    });
+    return result;
+  }
 };
 
 // service to get product by id
@@ -43,8 +50,9 @@ const searchProductFromDB = async (searchTerm: string) => {
   const searchResult = await ProductsModel.find({
     $or: [
       { name: { $regex: searchTerm, $options: 'i' } },
+      { description: { $regex: searchTerm, $options: 'i' } },
       { category: { $regex: searchTerm, $options: 'i' } },
-      { tags: { $in: [searchTerm] } }
+      { tags: { $regex: searchTerm, $options: 'i' } }
     ]
   });
   return searchResult;
