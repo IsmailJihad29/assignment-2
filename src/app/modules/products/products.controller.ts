@@ -109,5 +109,5 @@ export const ProductController = {
   getAllProduct,
   getSingleProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
 };
