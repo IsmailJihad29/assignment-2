@@ -20,8 +20,28 @@ const getSingleProductFromDb = async (_id: string) => {
   return result;
 };
 
+// service to update product by id
+
+const updateProductFromDb = async (id: string, updatedProduct: ProductsDoc)=>{
+  const result = await ProductsModel.findByIdAndUpdate(
+    id,
+    { $set: { ...updatedProduct } },
+    { new: true },
+  );
+  return result;
+}
+
+// service to delete product 
+
+const deleteProductFromDb = async (id: string)=>{
+  const result = await ProductsModel.findByIdAndDelete(id);
+  return result;
+}
+
 export const ProductServices = {
   createProductIntoDb,
   getAllProductFromDb,
   getSingleProductFromDb,
+  updateProductFromDb,
+  deleteProductFromDb
 };
